@@ -1,5 +1,6 @@
 package com.example.airports.utils
 
+import android.util.Log
 import com.example.airports.domain.model.Resource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -12,10 +13,11 @@ suspend fun <T> resultFlow(
 ): Flow<Resource<T>> {
     return flow {
         try {
-            emit(Resource.loading(null))
+            emit(Resource.loading())
             val response = apiCall.invoke()
             emit(Resource.success(response))
         } catch (t: Throwable) {
+            Log.e("NetworkHelper", t.message.orEmpty())
             emit(Resource.error("An unexpected error occurred"))
         }
     }.flowOn(dispatcher)

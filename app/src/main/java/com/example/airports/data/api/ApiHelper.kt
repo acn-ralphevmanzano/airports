@@ -1,9 +1,7 @@
 package com.example.airports.data.api
 
-import com.example.airports.domain.model.AirportsResponse
-import kotlinx.coroutines.flow.Flow
-import retrofit2.Response
+import com.example.airports.domain.model.Airport
 
 interface ApiHelper {
-    suspend fun getAirports(): AirportsResponse
+    suspend fun getAirports(): List<Airport>
 }

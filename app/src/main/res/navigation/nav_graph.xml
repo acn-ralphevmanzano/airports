@@ -17,5 +17,10 @@
     <fragment
         android:id="@+id/detailsFragment"
         android:name="com.example.airports.ui.details.DetailsFragment"
-        android:label="Details" />
+        android:label="Details" >
+
+        <argument
+            android:name="airportJson"
+            app:argType="string" />
+    </fragment>
 </navigation>

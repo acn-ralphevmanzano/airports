@@ -21,6 +21,10 @@ class HomeViewModel @Inject constructor(private val getAirportsUseCase: GetAirpo
     val airportsList: LiveData<Resource<List<Airport>>> = _airportsList
 
     init {
+        getAirports()
+    }
+
+    fun getAirports() {
         viewModelScope.launch {
             getAirportsUseCase().collect {
                 _airportsList.value = it

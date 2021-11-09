@@ -1,14 +1,15 @@
 package com.example.airports.ui.details
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.airports.domain.model.Airport
 
 class DetailsViewModel: ViewModel() {
-
-    var airport: Airport? = null
+    private val _airport = MutableLiveData<Airport>()
+    val airport: LiveData<Airport> = _airport
 
     fun extractArgs(args: DetailsFragmentArgs) {
-        airport = Airport.fromJson(args.airportJson)
+        _airport.value = Airport.fromJson(args.airportJson)
     }
-
 }

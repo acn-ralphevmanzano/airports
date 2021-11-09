@@ -55,14 +55,14 @@ abstract class BaseFragment<VM : ViewModel, VB : ViewBinding> : Fragment() {
     fun <T> observeDataFlow(
         liveData: LiveData<Resource<T>>,
         onSuccess: (T) -> Unit,
-        onError: (String) -> Unit,
+        onError: (Pair<String, String>) -> Unit,
         onLoading: () -> Unit
     ) {
         liveData.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.LOADING -> onLoading()
                 Status.SUCCESS -> it.data?.let { onSuccess(it) }
-                Status.ERROR -> onError(it.message.orEmpty())
+                Status.ERROR -> onError(Pair(it.message.orEmpty(), it.code.orEmpty()))
             }
         }
     }
@@ -76,7 +76,12 @@ abstract class BaseFragment<VM : ViewModel, VB : ViewBinding> : Fragment() {
         snackbar?.dismiss()
         snackbar = Snackbar.make(binding.root, message, length)
         if (isError) {
-            snackbar?.setBackgroundTint(getColor(binding.root.context, android.R.color.holo_red_light))
+            snackbar?.setBackgroundTint(
+                getColor(
+                    binding.root.context,
+                    android.R.color.holo_red_light
+                )
+            )
             snackbar?.setActionTextColor(getColor(binding.root.context, R.color.white))
         }
         onClickListener?.let { snackbar?.setAction("Retry") { it() } }

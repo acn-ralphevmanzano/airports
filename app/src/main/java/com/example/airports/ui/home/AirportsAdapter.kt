@@ -1,15 +1,12 @@
 package com.example.airports.ui.home
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.airports.R
 import com.example.airports.databinding.ItemAirportBinding
 import com.example.airports.domain.model.Airport
-import com.example.airports.utils.extensions.setCircleImage
 
 class AirportsAdapter :
     ListAdapter<Airport, AirportsAdapter.AirportsViewHolder>(AirportsDiffCallback()) {

@@ -1,23 +1,26 @@
 package com.example.airports.utils
 
-import android.util.Log
 import com.example.airports.domain.model.Resource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import retrofit2.Response
 
 suspend fun <T> resultFlow(
     dispatcher: CoroutineDispatcher,
-    apiCall: suspend () -> T
+    apiCall: suspend () -> Response<T>
 ): Flow<Resource<T>> {
     return flow {
         try {
             emit(Resource.loading())
             val response = apiCall.invoke()
-            emit(Resource.success(response))
+            if (response.isSuccessful) {
+                emit(Resource.success(response.body()))
+            } else {
+                emit(Resource.error(response.message(), response.code().toString()))
+            }
         } catch (t: Throwable) {
-            Log.e("NetworkHelper", t.message.orEmpty())
             emit(Resource.error("An unexpected error occurred"))
         }
     }.flowOn(dispatcher)

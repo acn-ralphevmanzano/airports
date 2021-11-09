@@ -1,6 +1,7 @@
 package com.example.airports.ui.home
 
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.airports.databinding.FragmentHomeBinding
 import com.example.airports.domain.model.Airport
 import com.example.airports.ui.base.BaseFragment
@@ -21,11 +22,12 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
         adapter = AirportsAdapter()
         adapter.onItemClick = { navigateToDetails(it) }
         rv.adapter = adapter
+        rv.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
     }
 
     override fun observeDate() = with(binding) {
         observeDataFlow(
-            viewModel.airportsList,
+            viewModel.airportsResult,
             onLoading = {
                 pb.show()
                 rv.hide()
@@ -38,7 +40,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
             onError = {
                 pb.hide()
                 rv.hide()
-                showSnackbar(it, true) { viewModel.getAirports() }
+                showSnackbar(it.first, true) { viewModel.getAirports() }
             }
         )
     }

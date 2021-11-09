@@ -5,10 +5,10 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class Location(
     val aboveSeaLevel: Int? = -1,
-    val latitude: Double? = Double.NaN,
+    val latitude: Double? = (-1).toDouble(),
     val latitudeDirection: String? = "",
-    val latitudeRadius: Double? = Double.NaN,
-    val longitude: Double? = Double.NaN,
+    val latitudeRadius: Double? = (-1).toDouble(),
+    val longitude: Double? = (-1).toDouble(),
     val longitudeDirection: String? = "",
-    val longitudeRadius: Double? = Double.NaN
+    val longitudeRadius: Double? = (-1).toDouble()
 )
